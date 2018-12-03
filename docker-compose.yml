@@ -1,0 +1,32 @@
+version: '3'
+services:
+  express-api-dev: 
+    container_name: express-api-dev 
+    image: node:alpine
+    environment:
+      - PORT=4000
+    # stdin_open: true
+    # tty: true
+    ports: 
+      - 4000
+    volumes: 
+      - .:/app
+    entrypoint: node index.js
+  # docker-compose run --rm express-api-dev sh
+  # to start development
+
+  express-api-build: 
+    build: . 
+    image: fancheung/express-api
+  # docker-compopse push express-api-build
+  # push to hub
+
+  # it will get the image from the preceeding build or from hub 
+  # service, with the specified image name
+  express-api-prod:
+    # depends_on: 
+      # - express-api-build
+    container_name: express-api-prod
+    image: fancheung/express-api
+    entrypoint: node index.js
+  
